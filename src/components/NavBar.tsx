@@ -20,7 +20,11 @@ const Navbar = () => {
     navigate('/login');
   };
 
-  const navLinks = [
+  const navLinks = user ? [
+    { name: 'Manage Orders', path: '/admin', icon: <ClipboardList size={20} /> },
+    { name: 'POS', path: '/pos', icon: <Utensils size={20} /> },
+    { name: 'Order History', path: '/history', icon: <Settings size={20} /> },
+  ] : [
     { name: 'Home', path: '/', icon: <Home size={20} /> },
     { name: 'Menu', path: '/menu', icon: <Utensils size={20} /> },
     { name: 'Gallery', path: '/gallery', icon: <Image size={20} /> },
@@ -46,32 +50,38 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            <Link 
-              to={user ? "/history" : "/my-orders"} 
-              className="text-dark hover:text-primary transition-colors flex items-center gap-1 sm:gap-2 px-2 py-1 rounded-lg hover:bg-gray-50"
-            >
-              <ClipboardList size={20} />
-              <span className="hidden md:inline text-sm font-bold">My Orders</span>
-            </Link>
+            {!user && (
+              <Link 
+                to="/my-orders" 
+                className="text-dark hover:text-primary transition-colors flex items-center gap-1 sm:gap-2 px-2 py-1 rounded-lg hover:bg-gray-50"
+              >
+                <ClipboardList size={20} />
+                <span className="hidden md:inline text-sm font-bold">My Orders</span>
+              </Link>
+            )}
 
-            <button 
-              onClick={() => setIsCartOpen(true)} 
-              className="relative p-2 hover:bg-gray-100 rounded-full transition-colors group"
-            >
-              <ShoppingCart size={24} />
-              {itemCount > 0 && (
-                <span className="absolute top-0 right-0 bg-primary text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center border border-white">
-                  {itemCount}
-                </span>
-              )}
-            </button>
+            {!user && (
+              <button 
+                onClick={() => setIsCartOpen(true)} 
+                className="relative p-2 hover:bg-gray-100 rounded-full transition-colors group"
+              >
+                <ShoppingCart size={24} />
+                {itemCount > 0 && (
+                  <span className="absolute top-0 right-0 bg-primary text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center border border-white">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
+            )}
 
-            <Link 
-              to="/menu" 
-              className="bg-primary text-white px-3 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold hover:bg-opacity-90 transition-all shadow-sm"
-            >
-              Order Now
-            </Link>
+            {!user && (
+              <Link 
+                to="/menu" 
+                className="bg-primary text-white px-3 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold hover:bg-opacity-90 transition-all shadow-sm"
+              >
+                Order Now
+              </Link>
+            )}
           </div>
         </div>
       </header>
@@ -140,24 +150,16 @@ const Navbar = () => {
 
             <div className="pt-8">
               <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Account</p>
-              <Link 
-                to={user ? "/history" : "/my-orders"} 
-                className="flex items-center gap-3 p-3 rounded-xl font-semibold hover:bg-gray-50 hover:text-primary transition-all group"
-                onClick={() => setIsSidebarOpen(false)}
-              >
-                <span className="text-gray-400 group-hover:text-primary transition-colors"><ClipboardList size={20} /></span>
-                My Orders
-              </Link>
-              {user?.role === 'admin' || user?.role === 'staff' ? (
+              {!user && (
                 <Link 
-                  to="/admin" 
+                  to="/my-orders" 
                   className="flex items-center gap-3 p-3 rounded-xl font-semibold hover:bg-gray-50 hover:text-primary transition-all group"
                   onClick={() => setIsSidebarOpen(false)}
                 >
-                  <span className="text-gray-400 group-hover:text-primary transition-colors"><Settings size={20} /></span>
-                  Admin Panel
+                  <span className="text-gray-400 group-hover:text-primary transition-colors"><ClipboardList size={20} /></span>
+                  My Orders
                 </Link>
-              ) : null}
+              )}
             </div>
           </nav>
 
@@ -191,7 +193,7 @@ const Navbar = () => {
         </div>
       </aside>
 
-      <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      {!user && <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />}
     </>
   );
 };

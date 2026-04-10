@@ -13,6 +13,7 @@ import CustomerOrderHistory from './pages/CustomerOrderHistory';
 import Gallery from './pages/Gallery';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import POS from './pages/POS';
 
 function App() {
   return (
@@ -37,6 +38,13 @@ function App() {
                 <Route path="/history" element={
                   <ProtectedRoute>
                     <OrderHistory />
+                  </ProtectedRoute>
+                } />
+
+                {/* POS: Point of Sale for staff */}
+                <Route path="/pos" element={
+                  <ProtectedRoute>
+                    <POS />
                   </ProtectedRoute>
                 } />
 

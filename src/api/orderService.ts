@@ -6,7 +6,7 @@ export const saveOrder = (orderData) => {
     ...orderData,
     id: `ORD-${Date.now()}`,
     date: new Date().toISOString(),
-    status: 'Pending'
+    status: orderData.status || 'Pending'
   };
 
   orders.push(newOrder);

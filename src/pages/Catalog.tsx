@@ -1,16 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../api/productService';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Catalog = () => {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const { user } = useContext(AuthContext) as any;
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (user) {
+      navigate('/admin');
+      return;
+    }
     // Fetch products from our local mock database on component mount
     const data = getProducts();
     setProducts(data);
-  }, []);
+  }, [user, navigate]);
+
+  if (user) return null;
 
   // Extract unique categories
   const categories = ['All', ...new Set(products.map(p => p.category))];

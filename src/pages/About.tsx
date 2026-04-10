@@ -1,7 +1,21 @@
 import { motion } from 'motion/react';
 import { Users, Music, Truck, Heart, Zap, Utensils, Coffee, Star } from 'lucide-react';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const About = () => {
+  const { user } = useContext(AuthContext) as any;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/admin');
+    }
+  }, [user, navigate]);
+
+  if (user) return null;
+
   const pillars = [
     {
       title: "Community Hub",

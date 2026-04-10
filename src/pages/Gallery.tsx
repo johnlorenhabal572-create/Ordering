@@ -1,7 +1,21 @@
 import { motion } from 'motion/react';
 import { Image as ImageIcon, Utensils, Music, Coffee } from 'lucide-react';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Gallery = () => {
+  const { user } = useContext(AuthContext) as any;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/admin');
+    }
+  }, [user, navigate]);
+
+  if (user) return null;
+
   const categories = [
     {
       id: 'plates',

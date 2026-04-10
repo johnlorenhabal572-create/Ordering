@@ -1,8 +1,21 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Utensils, Music, Phone, ArrowRight, Truck, Coffee, Zap, Facebook, Instagram, Clock, MapPin } from 'lucide-react';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 const LandingPage = () => {
+  const { user } = useContext(AuthContext) as any;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/admin');
+    }
+  }, [user, navigate]);
+
+  if (user) return null;
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
