@@ -19,7 +19,7 @@ const POS = () => {
     setProducts(getProducts());
   }, []);
 
-  const categories = ['All', 'Seafood', 'Supplement', 'Beverage'];
+  const categories = ['All', ...new Set(products.map((p: any) => p.category))];
 
   const filteredProducts = products.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());

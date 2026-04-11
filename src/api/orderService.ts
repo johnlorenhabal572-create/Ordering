@@ -1,3 +1,5 @@
+import { deductInventory } from './inventoryService';
+
 export const saveOrder = (orderData) => {
   const storedOrders = localStorage.getItem('capstone_orders');
   const orders = storedOrders ? JSON.parse(storedOrders) : [];
@@ -8,6 +10,13 @@ export const saveOrder = (orderData) => {
     date: new Date().toISOString(),
     status: orderData.status || 'Pending'
   };
+
+  // Deduct inventory if items are linked
+  newOrder.items.forEach((item: any) => {
+    if (item.inventoryLinkId) {
+      deductInventory(item.inventoryLinkId, item.quantity);
+    }
+  });
 
   orders.push(newOrder);
   localStorage.setItem('capstone_orders', JSON.stringify(orders));

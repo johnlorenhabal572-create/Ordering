@@ -20,17 +20,37 @@ const Navbar = () => {
     navigate('/login');
   };
 
-  const navLinks = user ? [
-    { name: 'Manage Orders', path: '/admin', icon: <ClipboardList size={20} /> },
-    { name: 'POS', path: '/pos', icon: <Utensils size={20} /> },
-    { name: 'Order History', path: '/history', icon: <Settings size={20} /> },
-  ] : [
-    { name: 'Home', path: '/', icon: <Home size={20} /> },
-    { name: 'Menu', path: '/menu', icon: <Utensils size={20} /> },
-    { name: 'Gallery', path: '/gallery', icon: <Image size={20} /> },
-    { name: 'About', path: '/about', icon: <Info size={20} /> },
-    { name: 'Contact', path: '/contact', icon: <Phone size={20} /> },
-  ];
+  const getNavLinks = () => {
+    if (!user) {
+      return [
+        { name: 'Home', path: '/', icon: <Home size={20} /> },
+        { name: 'Menu', path: '/menu', icon: <Utensils size={20} /> },
+        { name: 'Gallery', path: '/gallery', icon: <Image size={20} /> },
+        { name: 'About', path: '/about', icon: <Info size={20} /> },
+        { name: 'Contact', path: '/contact', icon: <Phone size={20} /> },
+      ];
+    }
+
+    if (user.role === 'admin') {
+      return [
+        { name: 'Manage Orders', path: '/admin', icon: <ClipboardList size={20} /> },
+        { name: 'Manage Menu', path: '/manage-menu', icon: <Utensils size={20} /> },
+        { name: 'Manage Inventory', path: '/manage-inventory', icon: <Settings size={20} /> },
+      ];
+    }
+
+    if (user.role === 'staff') {
+      return [
+        { name: 'Manage Orders', path: '/admin', icon: <ClipboardList size={20} /> },
+        { name: 'POS', path: '/pos', icon: <Utensils size={20} /> },
+        { name: 'Order History', path: '/history', icon: <Settings size={20} /> },
+      ];
+    }
+
+    return [];
+  };
+
+  const navLinks = getNavLinks();
 
   return (
     <>

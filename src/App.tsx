@@ -14,6 +14,8 @@ import Gallery from './pages/Gallery';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import POS from './pages/POS';
+import ManageMenu from './pages/ManageMenu';
+import ManageInventory from './pages/ManageInventory';
 
 function App() {
   return (
@@ -45,6 +47,20 @@ function App() {
                 <Route path="/pos" element={
                   <ProtectedRoute>
                     <POS />
+                  </ProtectedRoute>
+                } />
+
+                {/* Manage Menu: ONLY admins */}
+                <Route path="/manage-menu" element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <ManageMenu />
+                  </ProtectedRoute>
+                } />
+
+                {/* Manage Inventory: ONLY admins */}
+                <Route path="/manage-inventory" element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <ManageInventory />
                   </ProtectedRoute>
                 } />
 
